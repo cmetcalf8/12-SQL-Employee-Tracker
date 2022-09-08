@@ -164,7 +164,7 @@ addEmployee = () => {
 };
 
 // Function to add a department
-function addDepartment() {
+addDepartment = () => {
     inquirer
         .prompt([
             {
@@ -186,4 +186,63 @@ function addDepartment() {
                 options();
                 })
             })
+};
+
+// Function to add a role
+addRole = () => {
+    connection.query('SELECT * FROM department', function(err, res) {
+        if (err) throw err;
+        inquirer
+        .prompt([
+            {
+                name: 'new_role',
+                type: 'input',
+                message: "What new role would you like to add?"
+            },
+            {
+                name: 'salary',
+                type: 'input',
+                message: "What is the salary of this role? (Just enter a number)"
+            },
+            {
+                name: 'Department',
+                type: 'list',
+                choices: function() {
+                    var deptArray = [];
+                    for (let i =0; i <res.length; i++) {
+                        deptArray.push(res[i].name);
+                    }
+                    return deptArray;
+                },
+            }
+        ]).then(function (answer) {
+            let department_id;
+            for (let a = 0; a < res.length; a++) {
+                if (res[a].name == answer.Department) {
+                    department_id = res[a].id;
+                }
+            }
+            connection.query(
+                'INSERT INTO role SET?',
+                {
+                    title: answer.new_role,
+                    salary: answer.salary,
+                    department_id: department_id
+                },
+                function (err, res) {
+                    if(err) throw err;
+                    console.log('Your new role has been added.');
+                    console.table('All Roles:', res);
+                    options();
+                })
+        })
+    })
+};
+
+function updateRole() {
+
+};
+
+function exitApp() {
+    connection.end();
 };
