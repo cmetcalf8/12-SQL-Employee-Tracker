@@ -18,7 +18,7 @@ const connection = mysql.createConnection({
 
 connection.connect(function(err){
     if (err) throw err;
-    options();
+    mainMenu();
 })
 
 // Initial prompt to show viewing and adding options
@@ -157,7 +157,7 @@ addEmployee = () => {
                     function (err) {
                         if (err) throw err;
                         console.log('Your employee has been added!');
-                        options();
+                        mainMenu();
                     })
             })
     })
@@ -183,7 +183,7 @@ addDepartment = () => {
                 if(err)throw err;
                 console.log('Your department has been added!');
                 console.table('All Departments:', res);
-                options();
+                mainMenu();
                 })
             })
 };
@@ -233,7 +233,7 @@ addRole = () => {
                     if(err) throw err;
                     console.log('Your new role has been added.');
                     console.table('All Roles:', res);
-                    options();
+                    mainMenu();
                 })
         })
     })
