@@ -18,7 +18,6 @@ const connection = mysql.createConnection({
 
 connection.connect(function(err){
     if (err) throw err;
-    mainMenu();
 })
 
 // Initial prompt to show viewing and adding options
@@ -38,7 +37,7 @@ const mainMenu = () => {
         }
     ])
         .then(function (answer) {
-            switch (answer.action) {
+            switch (answer.choices) {
                 case 'View all departments':
                     viewDepartments();
                     break;
@@ -74,7 +73,7 @@ viewDepartments = () => {
     console.log('Showing all departments.../n');
     const sql = 'SELECT department.id AS id, department.name AS department FROM department';
 
-    connection.promise().query(sql, (err, rows) => {
+    connection.query(sql, (err, rows) => {
         if (err) throw err;
         console.table(rows);
         mainMenu();
@@ -86,7 +85,7 @@ viewRoles = () => {
     console.log('Showing all roles.../n');
     const sql = 'SELECT role.id, role.title, department.name AS department FROM role INNER JOIN department ON role.department_id = department.id';
 
-    connection.promise().query(sql, (err, rows) => {
+    connection.query(sql, (err, rows) => {
         if (err) throw err;
         console.table(rows);
         mainMenu();
@@ -96,9 +95,9 @@ viewRoles = () => {
 // Function to show all employees
 viewEmployees = () => {
     console.log('Showing all employees.../n');
-    const sql = 'SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary FROM employee';
+    const sql = 'SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id';
 
-    connection.promise().query(sql, (err, rows) => {
+    connection.query(sql, (err, rows) => {
         if (err) throw err;
         console.table(rows);
         mainMenu();
@@ -164,7 +163,7 @@ addEmployee = () => {
 };
 
 // Function to add a department
-addDepartment = () => {
+ const addDepartment = () => {
     inquirer
         .prompt([
             {
@@ -232,8 +231,15 @@ addRole = () => {
                 function (err, res) {
                     if(err) throw err;
                     console.log('Your new role has been added.');
+                    var query = 'SELECT * FROM role';
+                    connection.query(query, function(err, res) {
+                    if(err)throw err;
+                    // console.log('Your new role has been added!');
                     console.table('All Roles:', res);
                     mainMenu();
+                    })
+                    // console.table('All Roles:', res);
+                    // console.log(res);
                 })
         })
     })
@@ -246,3 +252,5 @@ function updateRole() {
 function exitApp() {
     connection.end();
 };
+
+mainMenu();

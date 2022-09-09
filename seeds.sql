@@ -1,3 +1,5 @@
+USE employees_db;
+
 INSERT INTO department (name)
 VALUES
 ('IT'),
@@ -10,11 +12,11 @@ VALUES
 ('Full Stack Developer', 70000, 1),
 ('Financial Analyst', 120000, 2),
 ('Sales Manager', 150000, 3),
-('Project Manager', 80000, 4),
+('Project Manager', 80000, 4);
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
+INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
 VALUES
-('Dennis', 'Reynolds', 3, 3)
-('Dee', 'Reynolds', 4, null)
-('Ronald', 'MacDonald', 2, null)
-('Charlie', 'Kelly', 1, 1)
+(1, 'Dennis', 'Reynolds', 3, 3),
+(2, 'Dee', 'Reynolds', 4, 4),
+(3, 'Ronald', 'MacDonald', 2, 2),
+(4, 'Charlie', 'Kelly', 1, 1);
