@@ -12,11 +12,11 @@ Table of Contents
 
 ## Installation
 
-In the command line
+In the command line run "npm start". From there you'll be able to view the Main Menu and select from various options both viewing and adding information.
 
 ## Usage
 
-
+Link to video demo: https://drive.google.com/file/d/1nRFenIlH3DI2jJ9sogskCsg_nwaFPK3l/view
 
 ## Credits
 
